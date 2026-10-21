@@ -32,6 +32,64 @@ uv run python -m app.ask "LoRAとは何ですか？"
 
 詳しい手順は [lectures/01/problem.md](lectures/01/problem.md) を見てください。
 
+## 第1回：履歴付きの対話とトークン表示
+
+単発の使い方は変更していません。`--chat` を付けると、前の質問と回答を
+次のリクエストへ渡して、同じ話題について続けて質問できます。
+以下は自分の fork を clone したディレクトリ内で実行します。
+API を呼ぶコマンドでは、事前に `GEMINI_API_KEY` を Codespaces secret などで
+設定してください。キーをコマンドの引数に直接書かないでください。
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+uv run --frozen python -m app.ask "LoRAとは何ですか？"
+uv run --frozen python -m app.ask --chat
+```
+
+最初の質問をコマンドで渡してから、対話を続けることもできます。
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+uv run --frozen python -m app.ask --chat "LoRAとは何ですか？"
+```
+
+対話中に使える入力：
+
+| 入力 | 動作 |
+|---|---|
+| 通常の文章 | それまでの質問・回答を含めて質問する |
+| 空行 | API を呼ばず、次の入力を待つ |
+| `/reset` | 会話履歴を消し、別の話題を始める |
+| `/quit`、`/exit`、入力終了（Ctrl+D） | 対話を終える |
+
+`[tokens] 入力: ... / 出力: ...` は、API 応答の `usage_metadata` に含まれる
+`prompt_token_count` と `candidates_token_count` を表示します。
+取得できない値は `取得不可` と表示し、0 トークンとは区別します。
+これらは各リクエストの値であり、金額やセッション全体の合計ではありません。
+対話の入力には過去の会話も含まれるため、やり取りを続けると入力トークン数が増えます。
+
+履歴は実行中のメモリだけに保存し、ファイルには書き出しません。
+API エラーや回答本文がない応答は履歴に追加せず、自動再送もしません。
+履歴が長くなった場合や別の話題へ移る場合は `/reset` を使ってください。
+
+### API を使わない動作確認
+
+依存パッケージは既存の `uv.lock` から入れます。`tests/test_ask.py` は
+Gemini クライアントを mock に置き換え、実 API キーの読み込みも通信も行いません。
+以下のコマンドは macOS / Linux / Codespaces 向けです。
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+env -u GEMINI_API_KEY -u GOOGLE_API_KEY uv run --frozen pytest -q
+env -u GEMINI_API_KEY -u GOOGLE_API_KEY uv run --frozen python -m app.ask --help
+```
+
+テストでは、2 回目の送信内容が `user → model → user` の順になること、
+履歴リセット、エラー時の履歴保持、トークン数の未取得・0 の区別、
+従来の単発 CLI と対話 CLI を確認しています。
+mock テストの成功は、実モデルの回答品質・通信・API クオータの確認ではありません。
+今回実施した検証と、未実施の実 API 検証は [第1回の解答](lectures/01/answer.md) に分けて記録しています。
+
 ## 構成
 
 ```
