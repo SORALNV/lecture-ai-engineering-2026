@@ -85,4 +85,4 @@
 
 ## 再現・検査記録
 
-原本は [公式Notebook](../../notebooks/lora_format_tuning.ipynb)、実行経路は [コード・環境手順](code/README.md)、比較結果は [comparison.json](results/comparison.json)、保存済み結果の独立検査は [validation.json](results/validation.json) を参照。2step・1問のスモーク結果は提出対象に含めていない。MPS float32での代理実行は検証済みだが、Colab/T4上の再現、複数seed、実運用での安全性は未検証である。
+原本は [公式Notebook](../../notebooks/lora_format_tuning.ipynb)、実行経路は [コード・環境手順](code/README.md)、比較結果は [comparison.json](results/comparison.json)、各runの [基準設定](results/baseline_epochs20/result.json) と [変更設定](results/changed_epochs10/result.json)、保存出力の独立検査は [validation.json](results/validation.json) を参照。各runには質問ごとの学習前後の出力も含めた。モデル重みと中間checkpointは公開パックから除外している。2step・1問のスモーク結果は提出対象に含めていない。MPS float32での代理実行は検証済みだが、Colab/T4上の再現、複数seed、実運用での安全性は未検証である。

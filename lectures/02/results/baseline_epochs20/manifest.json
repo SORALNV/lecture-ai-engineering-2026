@@ -1,0 +1,46 @@
+{
+  "adapter/adapter_config.json": {
+    "bytes": 1173,
+    "sha256": "0c5fbc4382573877c4eedb4d9b41e33a81a4c14d12a1727748d14479c2a8cd1a"
+  },
+  "completed.flag": {
+    "bytes": 33,
+    "sha256": "698a1d5f1235910504ac742613801de903ebe8702da829a031a9eae554de404c"
+  },
+  "eval_after.json": {
+    "bytes": 7675,
+    "sha256": "b0fd1b0d4f8f88f4bfa7692b5bd3a51c62c016f1f4677f24f99277035011bc66"
+  },
+  "eval_before.json": {
+    "bytes": 6493,
+    "sha256": "7bf6c87f8ce41c8e72d761908a4ea12e8ee051ec326ab9373f1786332deed034"
+  },
+  "gold.json": {
+    "bytes": 2958,
+    "sha256": "8b99cd31e6563082c4c0e533546c0ffd1e9bc819d9f11979800a5529d45da9e1"
+  },
+  "result.json": {
+    "bytes": 3106,
+    "sha256": "1f4d0796bfee1ce7796c70292124940aa5f61bea7c07a564b548dcaf92a561a1"
+  },
+  "runtime.json": {
+    "bytes": 552,
+    "sha256": "b51c416f6c9ee6bf3c139929b1be1e2e0396cfb8eccf68868b8b88e377384f19"
+  },
+  "sft_config.json": {
+    "bytes": 4076,
+    "sha256": "33c2cf5d949d27802d094a3ad321a75833ebfe791d31118e82a239250a6ef425"
+  },
+  "test.jsonl": {
+    "bytes": 13746,
+    "sha256": "b0d24cf56710a5539c42230ad5bb0b6ffc1f0b313a40603e1a03ad0b4bce9295"
+  },
+  "train.jsonl": {
+    "bytes": 9048,
+    "sha256": "33725676d0c9e6dfe8d2e0977dddda1b1d74f2892b60b06d39c5248c3c9d706b"
+  },
+  "train_metrics.json": {
+    "bytes": 1715,
+    "sha256": "004b8c56898ccc6345ec514be3cd8e4ae8e0de2782219b90ff1d7865646d29ce"
+  }
+}
