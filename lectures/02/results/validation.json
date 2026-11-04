@@ -1,0 +1,36 @@
+{
+  "verified": true,
+  "runs": [
+    {
+      "directory": "baseline_epochs20",
+      "verified": true,
+      "errors": [],
+      "global_step": 40,
+      "source_dataset_exact_match": true,
+      "raw_outputs_rescored": 42,
+      "manifest_hashes_match": true,
+      "result_sha256": "1f4d0796bfee1ce7796c70292124940aa5f61bea7c07a564b548dcaf92a561a1"
+    },
+    {
+      "directory": "changed_epochs10",
+      "verified": true,
+      "errors": [],
+      "global_step": 20,
+      "source_dataset_exact_match": true,
+      "raw_outputs_rescored": 42,
+      "manifest_hashes_match": true,
+      "result_sha256": "2041817ab1133ca5a1205e960edf416639c22b31a12b02864dbe25e9b91d946d"
+    }
+  ],
+  "comparison": {
+    "config_differences": ["num_train_epochs"],
+    "sft_differences": ["output_dir", "num_train_epochs"],
+    "baseline_matches_official": true,
+    "dataset_hashes_equal": true,
+    "runtime_and_runner_hash_equal": true,
+    "same_before_raw_count": 21,
+    "total_before_raw_count": 21,
+    "verified": true
+  },
+  "scope": "保存済みファイルの再採点・整合性検査。受講者の理解、将来の汎化、講座の合格、外部提出は保証しない。"
+}
