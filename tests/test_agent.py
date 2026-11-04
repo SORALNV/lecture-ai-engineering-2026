@@ -9,7 +9,7 @@ from pydantic_ai import DeferredToolRequests
 from pydantic_ai.messages import ToolCallPart, ToolReturnPart
 from pydantic_ai.models.test import TestModel
 
-from app.agent import agent
+from app.agent import MCP_INSTRUCTIONS, agent
 
 BASE_TOOLS = {"search_glossary", "get_lecture_summary", "make_quiz", "save_learning_log"}
 
@@ -52,3 +52,10 @@ def test_learning_log_requires_approval_before_writing(tmp_path, monkeypatch):
     assert isinstance(result.output, DeferredToolRequests)
     assert [call.tool_name for call in result.output.approvals] == ["save_learning_log"]
     assert not (tmp_path / "learning_log").exists()
+
+
+def test_mcp_instructions_do_not_claim_unpublished_tools():
+    assert "用語集検索ツール" in MCP_INSTRUCTIONS
+    assert "get_lecture_summary" not in MCP_INSTRUCTIONS
+    assert "make_quiz" not in MCP_INSTRUCTIONS
+    assert "save_learning_log" not in MCP_INSTRUCTIONS

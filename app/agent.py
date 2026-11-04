@@ -40,6 +40,15 @@ INSTRUCTIONS = """\
 - 学習記録を保存するときは、save_learning_log の内容を利用者に示し、明示的な承認を得てから実行する。
 """
 
+MCP_INSTRUCTIONS = """\
+あなたはAIエンジニアリング講座（AIE2026）の学習支援エージェントです。
+- 用語や講座に固有のことを答える前に、利用可能な用語集検索ツールを使う。
+- 用語集に見つからないことは、推測で断定せず「用語集にはない」と伝える。
+- 用語集の検索以外の操作を行うツールは現在公開されていない。講義要点の取得、確認問題の作成、学習記録の保存を行ったと主張しない。
+- 回答の最後に、関係する回（第N回）を示す。
+- 宿題の答えそのものは書かず、考え方のヒントで導く。
+"""
+
 # モデルは実行時に渡す（テストではAPIを呼ばない TestModel に差し替えるため）
 agent = Agent(instructions=INSTRUCTIONS, output_type=[str, DeferredToolRequests])
 agent.tool_plain(tools.search_glossary)
@@ -75,8 +84,8 @@ def load_mcp_servers(config_path: Path = MCP_CONFIG) -> list[MCPToolset]:
 
 
 def build_mcp_agent(config_path: Path = MCP_CONFIG) -> Agent:
-    """第5回: 関数を直接登録する代わりに、MCP サーバーが公開するツールを使うエージェント。INSTRUCTIONS は同じ。"""
-    return Agent(instructions=INSTRUCTIONS, toolsets=load_mcp_servers(config_path))
+    """第5回: MCP サーバーが公開するツールだけを前提にしたエージェント。"""
+    return Agent(instructions=MCP_INSTRUCTIONS, toolsets=load_mcp_servers(config_path))
 
 
 def build_model() -> GoogleModel:

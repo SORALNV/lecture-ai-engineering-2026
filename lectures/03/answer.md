@@ -3,7 +3,7 @@
 ## 演習
 
 - 第1回（素のLLM）とエージェントの回答の違い：第1回はモデルへ質問を直接渡すのに対し、第3回のエージェントは回答前に用語集検索や講義要点取得のツールを呼べる。今回はAPIキーを使った実モデル比較はしていない。
-- `--trace` で見えたツール呼び出し（ツール名と引数）：実モデルの `--trace` は未実行。APIキー不要の `--list-tools` で `search_glossary`、`get_lecture_summary`、`make_quiz`、`save_learning_log` の登録を確認した。
+- `--trace` で見えたツール呼び出し（ツール名と引数）：実モデルの `--trace` は未実行。APIキー不要の通常モード `--list-tools` で `search_glossary`、`get_lecture_summary`、`make_quiz`、`save_learning_log` の登録を確認した。`--mcp --list-tools` では現時点のMCP公開ツール `glossary_search_glossary` のみが表示されるため、MCPモードでは別の指示文を使い、未公開ツールを使ったと主張しないようにした（MCPサーバーへの追加公開は第5回の課題）。
 - 1つの質問での LLM 呼び出し回数（`requests`）：実モデル未実行のため未取得。テストの `TestModel` は配線確認用の偽モデルであり、実LLMの呼び出し回数とは扱わない。
 - 追加したツールと、docstring に書いた説明：`make_quiz(lecture)` は指定した回の用語から1つ選び、問題と定義をJSONで返す。`save_learning_log(topic, learning)` は学習記録を日付別Markdownへ追記する。
 
