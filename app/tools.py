@@ -5,11 +5,14 @@
 """
 
 import json
+from datetime import date, datetime
 from functools import cache
 from pathlib import Path
+import random
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 MAX_RESULTS = 3
+LEARNING_LOG_DIR = DATA_DIR.parent / "learning_log"
 
 
 @cache
@@ -77,3 +80,44 @@ def get_lecture_summary(lecture: int) -> str:
         available = sorted(p.stem for p in (DATA_DIR / "lectures").glob("*.md"))
         return f"第{lecture}回の要点はまだありません。用意されている回: {', '.join(available)}"
     return path.read_text(encoding="utf-8")
+
+
+def make_quiz(lecture: int) -> str:
+    """指定した回の用語から1つ選び、学習後の確認問題を作る。
+
+    「第2回の内容から確認問題を出して」のように、その回の用語を
+    復習したいときに使う。問題と答えをJSON形式で返す。
+    """
+    terms = [term for term in load_glossary() if term["lecture"] == lecture]
+    if not terms:
+        return f"第{lecture}回の用語が用語集に見つかりませんでした。"
+    term = random.choice(terms)
+    return json.dumps(
+        {"question": f"「{term['term']}」の意味は？", "answer": term["definition"]},
+        ensure_ascii=False,
+    )
+
+
+def save_learning_log(topic: str, learning: str) -> str:
+    """学習内容を日付付きMarkdownに追記する（呼び出し前に利用者承認が必要）。
+
+    利用者が「今日の学習記録を保存して」など、明示的に記録を求めたときに使う。
+    この関数は学習記録をローカルの learning_log/ に追記するため、エージェント側で
+    `requires_approval=True` を指定し、保存前に利用者へ確認すること。
+    """
+    clean_topic = " ".join(topic.split())
+    clean_learning = learning.strip()
+    if not clean_topic:
+        return "保存できませんでした。トピックが空です。"
+    if not clean_learning:
+        return "保存できませんでした。学んだ内容が空です。"
+    if len(clean_topic) > 200 or len(clean_learning) > 4000:
+        return "保存できませんでした。トピックは200文字、学習内容は4000文字以内にしてください。"
+
+    today = date.today().isoformat()
+    timestamp = datetime.now().astimezone().strftime("%H:%M:%S %Z")
+    path = LEARNING_LOG_DIR / f"{today}.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as log:
+        log.write(f"\n## {timestamp} — {clean_topic}\n\n{clean_learning}\n")
+    return f"学習記録を learning_log/{today}.md に追記しました。"

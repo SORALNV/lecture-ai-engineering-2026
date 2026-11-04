@@ -5,12 +5,13 @@ TestModel は実際のLLMを呼ばない偽モデルで、登録されたツー�
 「ツールが登録され、呼ばれ、結果がモデルに戻るか」を確かめられる。
 """
 
+from pydantic_ai import DeferredToolRequests
 from pydantic_ai.messages import ToolCallPart, ToolReturnPart
 from pydantic_ai.models.test import TestModel
 
-from app.agent import agent
+from app.agent import MCP_INSTRUCTIONS, agent
 
-BASE_TOOLS = {"search_glossary", "get_lecture_summary"}
+BASE_TOOLS = {"search_glossary", "get_lecture_summary", "make_quiz", "save_learning_log"}
 
 
 def _parts(result, kind):
@@ -27,7 +28,8 @@ def test_base_tools_are_registered_and_called():
 
     called = {p.tool_name for p in _parts(result, ToolCallPart)}
     assert BASE_TOOLS <= called
-    assert len(_parts(result, ToolReturnPart)) == len(_parts(result, ToolCallPart))
+    pending = len(result.output.approvals) if isinstance(result.output, DeferredToolRequests) else 0
+    assert len(_parts(result, ToolReturnPart)) + pending == len(_parts(result, ToolCallPart))
     assert result.output
 
 
@@ -37,3 +39,23 @@ def test_glossary_result_reaches_the_model():
         result = agent.run_sync("RAGとは？")
     returns = _parts(result, ToolReturnPart)
     assert returns and returns[0].tool_name == "search_glossary"
+
+
+def test_learning_log_requires_approval_before_writing(tmp_path, monkeypatch):
+    from app import tools
+
+    monkeypatch.setattr(tools, "LEARNING_LOG_DIR", tmp_path / "learning_log")
+    model = TestModel(call_tools=["save_learning_log"])
+    with agent.override(model=model):
+        result = agent.run_sync("今日の学習記録を保存してください")
+
+    assert isinstance(result.output, DeferredToolRequests)
+    assert [call.tool_name for call in result.output.approvals] == ["save_learning_log"]
+    assert not (tmp_path / "learning_log").exists()
+
+
+def test_mcp_instructions_do_not_claim_unpublished_tools():
+    assert "用語集検索ツール" in MCP_INSTRUCTIONS
+    assert "get_lecture_summary" not in MCP_INSTRUCTIONS
+    assert "make_quiz" not in MCP_INSTRUCTIONS
+    assert "save_learning_log" not in MCP_INSTRUCTIONS
