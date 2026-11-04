@@ -1,0 +1,19 @@
+{
+  "python": "3.13.12",
+  "device": "mps",
+  "versions": {
+    "torch": "2.11.0",
+    "transformers": "5.18.0",
+    "peft": "0.21.1",
+    "trl": "1.14.2",
+    "accelerate": "1.15.0",
+    "datasets": "5.1.0",
+    "numpy": "2.5.4"
+  },
+  "dtype": "float32",
+  "source_commit": "662cddd52724b330f3f4cd15123d1e55cb474874",
+  "source_notebook_sha256": "2edcfb6d1461dabdbfea8242a7ae4ec7c231f4d2e5cec61920a4317ce8694b00",
+  "runner_sha256": "ffb528410aa84d16a44010f6839208feb8a382d9ab9cfbd9d8f78da13b32523f",
+  "smoke_test": false,
+  "quantization": "none"
+}

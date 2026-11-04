@@ -1,0 +1,63 @@
+[
+  {
+    "verified": true,
+    "errors": [],
+    "smoke_test": false,
+    "global_step": 40,
+    "train_seconds": 386.3655037909921,
+    "before": {
+      "label": "before",
+      "n": 21,
+      "format_rate": 0.09523809523809523,
+      "content_rate": 0.0,
+      "both_rate": 0.0,
+      "seconds": 18.6
+    },
+    "after": {
+      "label": "after",
+      "n": 21,
+      "format_rate": 1.0,
+      "content_rate": 0.9047619047619048,
+      "both_rate": 0.9047619047619048,
+      "seconds": 29.8
+    },
+    "result_sha256": "1f4d0796bfee1ce7796c70292124940aa5f61bea7c07a564b548dcaf92a561a1"
+  },
+  {
+    "verified": true,
+    "errors": [],
+    "smoke_test": false,
+    "global_step": 20,
+    "train_seconds": 253.54298174999713,
+    "before": {
+      "label": "before",
+      "n": 21,
+      "format_rate": 0.09523809523809523,
+      "content_rate": 0.0,
+      "both_rate": 0.0,
+      "seconds": 19.3
+    },
+    "after": {
+      "label": "after",
+      "n": 21,
+      "format_rate": 1.0,
+      "content_rate": 0.8095238095238095,
+      "both_rate": 0.8095238095238095,
+      "seconds": 47.5
+    },
+    "result_sha256": "2041817ab1133ca5a1205e960edf416639c22b31a12b02864dbe25e9b91d946d"
+  },
+  {
+    "config_differences": [
+      "num_train_epochs"
+    ],
+    "sft_differences": [
+      "output_dir",
+      "num_train_epochs"
+    ],
+    "baseline_matches_official": true,
+    "dataset_hashes_equal": true,
+    "runtime_and_runner_hash_equal": true,
+    "verified": true
+  }
+]

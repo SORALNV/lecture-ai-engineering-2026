@@ -1,0 +1,55 @@
+{
+  "level": "basic",
+  "changed_config_key": "num_train_epochs",
+  "execution": "AIエージェントがMac MPSで代理実行。Colab/T4は使用していない。",
+  "replicates_per_config": 1,
+  "seed": 42,
+  "before_raw_equal_count": 21,
+  "test_count": 21,
+  "runs": [
+    {
+      "directory": "baseline_epochs20",
+      "num_train_epochs": 20,
+      "global_step": 40,
+      "before_format_pass": 2,
+      "before_content_pass": 0,
+      "after_format_pass": 21,
+      "after_content_pass": 19,
+      "after_both_pass": 19,
+      "within_run_regression_count": 0,
+      "final_logged_interval_loss": 0.013792125880718232,
+      "training_loss_average": 0.4074864488095045,
+      "train_seconds_perf_counter": 386.3655037909921,
+      "trainer_train_runtime_seconds": 386.2833
+    },
+    {
+      "directory": "changed_epochs10",
+      "num_train_epochs": 10,
+      "global_step": 20,
+      "before_format_pass": 2,
+      "before_content_pass": 0,
+      "after_format_pass": 21,
+      "after_content_pass": 17,
+      "after_both_pass": 17,
+      "within_run_regression_count": 0,
+      "final_logged_interval_loss": 0.09594305157661438,
+      "training_loss_average": 0.8062230020761489,
+      "train_seconds_perf_counter": 253.54298174999713,
+      "trainer_train_runtime_seconds": 1734.2933,
+      "timing_warning": "学習中にMacのスリープが発生し、perf_counterによる独自計測とTrainerの経過時間に大きな差がある。中断のない同条件の計算速度比較として扱わない。"
+    }
+  ],
+  "baseline_pass_changed_fail": [
+    "PDF 以外でも出せますか",
+    "課題の文字数に制限はありますか",
+    "参考文献の書き方に指定はありますか"
+  ],
+  "baseline_fail_changed_pass": ["オフィスアワーは事前予約が必要ですか"],
+  "interpretation_limits": [
+    "内容正解率0は知識ゼロを意味せず、学習前のneeds_review欠落等の機械判定に強く影響される。",
+    "形式・内容の自動採点は意味理解や安全性の保証ではない。",
+    "退行0は学習前both_rateが0であることにも起因する。",
+    "エポック数を変えると総ステップ数とcosine学習率の軌道も変わる。",
+    "少数の架空FAQ、単一seed各1試行であり、他の問題やハードウェアへの一般化は未検証。"
+  ]
+}
